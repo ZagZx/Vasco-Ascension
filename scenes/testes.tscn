@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://olfqbv3ukwmy"]
+
+[ext_resource type="Texture2D" uid="uid://c0elujghv1dy5" path="res://sprites/campoRedm.jpg" id="1_uqxlm"]
+[ext_resource type="PackedScene" uid="uid://bb5cmsto5fdio" path="res://scenes/player.tscn" id="2_2slxe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1thn"]
+size = Vector2(1152, 68)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gpdfn"]
+size = Vector2(1152, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2ab4"]
+size = Vector2(61.75, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7oqyv"]
+size = Vector2(61, 648)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CampoRedm" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("1_uqxlm")
+
+[node name="Vasco da Gama" parent="." instance=ExtResource("2_2slxe")]
+position = Vector2(47, 303)
+scale = Vector2(0.9, 0.9)
+
+[node name="top" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="top"]
+position = Vector2(576, -34)
+shape = SubResource("RectangleShape2D_e1thn")
+
+[node name="botton" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="botton"]
+position = Vector2(576, 670.5)
+shape = SubResource("RectangleShape2D_gpdfn")
+
+[node name="left" type="StaticBody2D" parent="."]
+position = Vector2(-62, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left"]
+position = Vector2(31, 324)
+shape = SubResource("RectangleShape2D_k2ab4")
+
+[node name="right" type="StaticBody2D" parent="."]
+position = Vector2(1213, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right"]
+position = Vector2(-30.5, 324)
+shape = SubResource("RectangleShape2D_7oqyv")

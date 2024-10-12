@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://useelgcw86eb"]
+
+[ext_resource type="Texture2D" uid="uid://cnqjf5730th8w" path="res://sprites/etacapapai.png" id="1_t6tio"]
+
+[sub_resource type="GDScript" id="GDScript_dcabh"]
+script/source = "extends Area2D
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == 'Player':
+		queue_free() #destroi o objeto
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3n0om"]
+size = Vector2(100, 248)
+
+[node name="Trofeu" type="Node2D"]
+
+[node name="Campeao" type="Area2D" parent="."]
+position = Vector2(-380, 22)
+script = SubResource("GDScript_dcabh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Campeao"]
+position = Vector2(428.686, 100.067)
+scale = Vector2(0.146843, 0.154466)
+texture = ExtResource("1_t6tio")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Campeao"]
+position = Vector2(430, 102)
+shape = SubResource("RectangleShape2D_3n0om")
+
+[connection signal="body_entered" from="Campeao" to="Campeao" method="_on_body_entered"]
