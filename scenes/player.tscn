@@ -3,13 +3,15 @@
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_veru8"]
 [ext_resource type="Texture2D" uid="uid://fmko83aulfnf" path="res://sprites/vasco.png" id="1_wciyr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wyroi"]
-size = Vector2(150, 203)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mp5jx"]
+radius = 75.0
+height = 216.0
 
 [node name="Vasco da Gama" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(-21, -2)
+position = Vector2(-21, 13)
+floor_block_on_wall = false
 script = ExtResource("1_veru8")
 
 [node name="Vasco" type="Sprite2D" parent="Player"]
@@ -18,5 +20,5 @@ texture = ExtResource("1_wciyr")
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(96, 103.5)
-shape = SubResource("RectangleShape2D_wyroi")
+position = Vector2(96, 95)
+shape = SubResource("CapsuleShape2D_mp5jx")
