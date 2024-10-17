@@ -62,8 +62,8 @@ public partial class Player : CharacterBody2D
 		
 		if (acceleration >= 0)
 			velocity = MoveRight(velocity, fDelta);
-		// if (acceleration <= 0)
-		// 	velocity = MoveLeft(velocity, fDelta);
+		if (acceleration <= 0)
+			velocity = MoveLeft(velocity, fDelta);
 		// if (acceleration != 0)
 		// 	velocity = Run(velocity, fDelta);
 		velocity = Jump(velocity, fDelta);
@@ -90,12 +90,19 @@ public partial class Player : CharacterBody2D
 	public float Decelerate(Vector2 velocity)
 	{
 		if (acceleration != 0)
-			velocity.X -= velocity.X * (acceleration * 0.3f);
+		{	
+			if (velocity.X > 0)
+				velocity.X -= velocity.X * (acceleration * 0.3f);
+			else{
+				velocity.X += velocity.X * (acceleration * 0.3f);
+			}
+			Debug.WriteLine(velocity.X);
+			Debug.WriteLine((acceleration, "acc"));
+		}
 		else{
 			velocity.X = 0;
 		}
-		Debug.WriteLine(velocity.X);
-		Debug.WriteLine((acceleration, "acc"));
+		
 			
 
 		return velocity.X;
@@ -140,16 +147,14 @@ public partial class Player : CharacterBody2D
 	{
 		if (Input.IsActionPressed("left"))
 		{	
+
 			if (acceleration > -AccelerationTime)
-				acceleration -= fDelta;
-			
-			if (acceleration < -AccelerationTime)
 			{	
-				
+				acceleration -= fDelta;
 				velocity.X = Speed * (acceleration * Multiplier);
 			}
 			
-			else if (acceleration >= AccelerationTime)
+			else if (acceleration <= -AccelerationTime)
 			{
 				velocity.X = Speed * -(AccelerationTime * Multiplier);
 			}
@@ -159,10 +164,16 @@ public partial class Player : CharacterBody2D
 		
 		else if (velocity.X < 0)
 		{	
-			
-			acceleration += fDelta;
-
 			velocity.X = Decelerate(velocity);
+
+			if (acceleration != 0 )
+			{
+				acceleration += fDelta;
+				if (acceleration > -0.01f)
+				{
+					acceleration = 0;
+				}
+			}
 		}
 		return velocity;
 	}
