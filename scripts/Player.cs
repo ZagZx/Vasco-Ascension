@@ -24,17 +24,14 @@ public partial class Player : CharacterBody2D
 	private float Multiplier = 2f; // 1 para o valor padrão
 
 	// Variável que aumenta a velocidade de CORRER
-	[Export]
-	private float Accelerator = 1; // 1 para o valor padrão
-
 
 	private const float AccelerationTime = 0.5f;
 	
+
 	private float acceleration;
 
-	private float shiftPressedTime;
-	private float shiftUnpressedTime;
-	private bool running = false;
+	
+
 
 
     public override void _PhysicsProcess(double delta)
@@ -64,31 +61,20 @@ public partial class Player : CharacterBody2D
 			velocity = MoveRight(velocity, fDelta);
 		if (acceleration <= 0)
 			velocity = MoveLeft(velocity, fDelta);
+		
+		if (IsOnWall())
+			velocity.X = 0;
 		// if (acceleration != 0)
 		// 	velocity = Run(velocity, fDelta);
 		velocity = Jump(velocity, fDelta);
-		// velocity = FixColision(velocity);
+
 		
 
 		return velocity;
 	}
 
-	// public Vector2 FixColision(Vector2 velocity)
-	// {
-
-	// 	if (IsOnWall())
-	// 	{
-	// 		if (velocity.X < 0)
-	// 		{
-	// 			velocity.X += 1;
-	// 		}
-	// 		else if (velocity.X > 0)
-	// 			velocity.X -= 1;
-	// 	}
-	// 	return velocity;
-	// }
 	public float Decelerate(Vector2 velocity)
-	{
+	{	
 		if (acceleration != 0)
 		{	
 			if (velocity.X > 0)
@@ -96,8 +82,8 @@ public partial class Player : CharacterBody2D
 			else{
 				velocity.X += velocity.X * (acceleration * 0.3f);
 			}
-			Debug.WriteLine(velocity.X);
-			Debug.WriteLine((acceleration, "acc"));
+			// Debug.WriteLine(velocity.X);
+			// Debug.WriteLine((acceleration, "acc"));
 		}
 		else{
 			velocity.X = 0;
@@ -111,22 +97,34 @@ public partial class Player : CharacterBody2D
 			
 		if (Input.IsActionPressed("right"))
 		{	
-			if (acceleration < AccelerationTime)
+			if (!Input.IsActionPressed("left"))
 			{
-				acceleration += fDelta;
-				velocity.X = Speed * (acceleration * Multiplier);
+				if(IsOnFloor()){
+					if (acceleration < AccelerationTime)
+					{
+						acceleration += fDelta;
+						velocity.X = Speed * (acceleration * Multiplier);
+					}
+					
+					else if (acceleration >= AccelerationTime)
+					{
+						velocity.X = Speed * (AccelerationTime * Multiplier);
+					}
+				}
 			}
-			
-			else if (acceleration >= AccelerationTime)
-			{
-				velocity.X = Speed * (AccelerationTime * Multiplier);
+			else{
+				acceleration = 0;
 			}
-			
+				
+			Debug.Print("Foi Right");
 		}
 		
 		else if (velocity.X > 0)
 		{	
-			velocity.X = Decelerate(velocity);
+			if(IsOnFloor())
+				velocity.X = Decelerate(velocity);
+
+
 			if (acceleration != 0 )
 			{
 				acceleration -= fDelta;
@@ -139,7 +137,7 @@ public partial class Player : CharacterBody2D
 		
 		}
 		// Debug.WriteLine(acceleration);
-		// Debug.WriteLine(Velocity.X);
+		
 		return velocity;
 	}
 
@@ -147,24 +145,32 @@ public partial class Player : CharacterBody2D
 	{
 		if (Input.IsActionPressed("left"))
 		{	
-
-			if (acceleration > -AccelerationTime)
-			{	
-				acceleration -= fDelta;
-				velocity.X = Speed * (acceleration * Multiplier);
-			}
-			
-			else if (acceleration <= -AccelerationTime)
+			if (!Input.IsActionPressed("right"))
 			{
-				velocity.X = Speed * -(AccelerationTime * Multiplier);
+
+				if(IsOnFloor()){
+					if (acceleration > -AccelerationTime)
+					{	
+						acceleration -= fDelta;
+						velocity.X = Speed * (acceleration * Multiplier);
+					}
+					
+					else if (acceleration <= -AccelerationTime)
+					{
+						velocity.X = Speed * -(AccelerationTime * Multiplier);
+					}
+				}
 			}
-			
-			
+			else{
+				acceleration = 0;
+			}
+			Debug.Print("Foi Left");
 		}
 		
 		else if (velocity.X < 0)
 		{	
-			velocity.X = Decelerate(velocity);
+			if(IsOnFloor())
+				velocity.X = Decelerate(velocity);
 
 			if (acceleration != 0 )
 			{
@@ -175,6 +181,7 @@ public partial class Player : CharacterBody2D
 				}
 			}
 		}
+		
 		return velocity;
 	}
 
