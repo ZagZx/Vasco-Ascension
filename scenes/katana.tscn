@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd33bwl5jv11d"]
+
+[ext_resource type="Texture2D" uid="uid://de0y5si41a820" path="res://sprites/Katana.png" id="1_vspps"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dgdht"]
+size = Vector2(46, 3)
+
+[node name="katana" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vspps")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7, -2.5)
+shape = SubResource("RectangleShape2D_dgdht")
+
+[node name="Katana" type="Node2D" parent="."]
