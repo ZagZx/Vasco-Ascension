@@ -1,0 +1,11 @@
+Lore:
+    Ronaldo Cabral tem seu peixe roubado por delinquentes. Após o grande maromba salvar seu peixe, ele pede apenas uma coisa para Ronaldinho. QUE ELE SALVE O VASCO! Então o maromba lhe dá uma katana, e é assim que Ronaldo Cabral derrotará seus inimigos e levará o vasco para o topo da tabela.
+
+Mecânicas:
+    - Lançar a katana em uma parede para poder subir nela e alcançar lugares altos
+    - Jogar a katana também causa dano a inimigos, caso acerte-os
+    - A katana retorna para a mão de Ronaldinho se pressionado novamente o botão
+    - Após matar certa quantidade de inimigos Ronaldo poderá comer um peixe para curar sua vida
+Resumo:
+    Jogo de plataforma com sistema de aceleração, haverão torcedores de times rivais para Ronaldo matar, no fim das fases haverá um boss que é um time.
+
