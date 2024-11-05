@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://u3ermfyn8piq"]
+
+[ext_resource type="Texture2D" uid="uid://b81i2nunw3y6o" path="res://sprites/Katana/Katana1.png" id="2_c8dtq"]
+[ext_resource type="Texture2D" uid="uid://dbgpt1m1j7g7p" path="res://sprites/Katana/Katana2.png" id="3_ewsj5"]
+[ext_resource type="Texture2D" uid="uid://dxkher7l3yyui" path="res://sprites/Katana/Katana3.png" id="4_wd4b0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7benj"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_c8dtq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ewsj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wd4b0")
+}],
+"loop": false,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06enw"]
+size = Vector2(45, 53.625)
+
+[node name="KatanaAttack" type="Node2D"]
+position = Vector2(32, -3)
+
+[node name="AreaAttack" type="Area2D" parent="."]
+position = Vector2(4.5, 4.75)
+collision_layer = 2
+collision_mask = 8
+
+[node name="Animation" type="AnimatedSprite2D" parent="AreaAttack"]
+position = Vector2(-4.5, -4.75)
+sprite_frames = SubResource("SpriteFrames_7benj")
+animation = &"new_animation"
+speed_scale = 2.0
+
+[node name="Collision" type="CollisionShape2D" parent="AreaAttack"]
+position = Vector2(1, -7.5625)
+shape = SubResource("RectangleShape2D_06enw")

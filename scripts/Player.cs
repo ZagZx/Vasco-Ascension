@@ -1,6 +1,7 @@
-using System;
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using Godot;
 
 // Precisa desacelerar o player se soltar o shift enquanto corre
@@ -28,11 +29,24 @@ public partial class Player : CharacterBody2D
 	
 	private float acceleration;
 
+
+	public Marker2D katanaPosition;
+
+	PackedScene katanaScene = GD.Load<PackedScene>("scenes/katana.tscn");
+
+	
+	Node2D attackInstance;
+	PackedScene katanaAttack = GD.Load<PackedScene>("scenes/KatanaAttack.tscn");
+	AnimatedSprite2D attackAnimation;
+
+	bool tocando = false;
+	
+	
+
     public override void _Ready()
     {
-        public PackedScene katana = (PackedScene)ResourceLoader.Load("scenes/katana.tscn");
+		katanaPosition = GetNode<Marker2D>("katanaPosition");
     }
-
     public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
@@ -40,11 +54,15 @@ public partial class Player : CharacterBody2D
 
 		
 		Velocity = Movimento(velocity, fDelta);
-		if (Input.IsActionJustPressed("throw"))
-		{
-			AtirarFaca();
-		}
+		
+		
+			
+		AtirarFaca();
+		
+
+		Atacar();
 		// Debug.WriteLine(IsOnWall());
+		
 		
 
 
@@ -54,12 +72,48 @@ public partial class Player : CharacterBody2D
 	}
 	public void AtirarFaca()
 	{	
-		CharacterBody2D katanaInstance = (CharacterBody2D)katana.Instantiate();
+		if (Input.IsActionJustPressed("f"))
+		{
+			Node2D katanaInstance = (Node2D)katanaScene.Instantiate();
+			AddSibling(katanaInstance);
+			
+			katanaInstance.GlobalPosition = katanaPosition.GlobalPosition;
+		}
+	}
+	public void Atacar()
+	{
 		
-		katanaInstance.Position = Position;
-		AddChild(katanaInstance);
+
+		
+		if (Input.IsActionJustPressed("throw") && !tocando)
+		{
+			attackInstance = (Node2D)katanaAttack.Instantiate();
+			AddChild(attackInstance);
+			attackInstance.GlobalPosition =	katanaPosition.GlobalPosition;
+
+			attackAnimation = attackInstance.GetNode<AnimatedSprite2D>("AreaAttack/Animation");
+			attackAnimation.Play();
+			tocando = true;
+		}
+		
+		//GAMBIARRA
+		try{
+			if (!attackAnimation.IsPlaying())
+			{   
+				tocando = false;
+				attackInstance.QueueFree();
+			}
+		}
+		catch{
+
+		}
+		
+	
+		
+
 		
 	}
+
 	public Vector2 Movimento(Vector2 velocity, float fDelta)
 	{	
 		if (!IsOnFloor())

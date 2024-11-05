@@ -26,12 +26,16 @@ texture = ExtResource("1_uqxlm")
 position = Vector2(108, 298)
 
 [node name="top" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="top"]
 position = Vector2(576, -34)
 shape = SubResource("RectangleShape2D_e1thn")
 
 [node name="botton" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="botton"]
 position = Vector2(576, 670.5)
@@ -39,6 +43,8 @@ shape = SubResource("RectangleShape2D_gpdfn")
 
 [node name="left" type="StaticBody2D" parent="."]
 position = Vector2(-62, 0)
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="left"]
 position = Vector2(31, 324)
@@ -46,6 +52,8 @@ shape = SubResource("RectangleShape2D_k2ab4")
 
 [node name="right" type="StaticBody2D" parent="."]
 position = Vector2(1213, 0)
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right"]
 position = Vector2(-30.5, 324)
