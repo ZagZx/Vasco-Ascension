@@ -4,7 +4,7 @@ using System;
 public partial class Katana : CharacterBody2D
 {
 
-	const float katanaSpeed = 15f;
+	const float katanaSpeed = 350f;
 	// const float katanaGravity = 0.5f;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -12,13 +12,12 @@ public partial class Katana : CharacterBody2D
 	{	
 		
 		Vector2 velocity = Velocity;
-		// if(!IsOnWall() && !IsOnFloor()){
-			velocity.X += katanaSpeed * (float)delta;
-			// velocity.Y += 1 * (float)delta;
-		// }
+	
+		velocity.X = katanaSpeed;
+			
 		Velocity = velocity;
 
-		MoveAndCollide(Velocity);
-		// MoveAndSlide();
+		MoveAndSlide();
+		
 	}
 }

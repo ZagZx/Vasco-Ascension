@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
@@ -32,7 +33,7 @@ public partial class Player : CharacterBody2D
 
 	public Marker2D katanaPosition;
 
-	PackedScene katanaScene = GD.Load<PackedScene>("scenes/katana.tscn");
+	PackedScene katanaScene = GD.Load<PackedScene>("scenes/KatanaThrow.tscn");
 
 	
 	Node2D attackInstance;
@@ -55,18 +56,17 @@ public partial class Player : CharacterBody2D
 		
 		Velocity = Movimento(velocity, fDelta);
 		
-		
-			
 		AtirarFaca();
-		
-
 		Atacar();
+
 		// Debug.WriteLine(IsOnWall());
 		
 		
 
-
 		MoveAndSlide();
+		// MoveAndCollide(Velocity*fDelta);
+
+		
 		
 		
 	}
@@ -116,26 +116,36 @@ public partial class Player : CharacterBody2D
 
 	public Vector2 Movimento(Vector2 velocity, float fDelta)
 	{	
-		if (!IsOnFloor())
+		Debug.WriteLine(IsOnWall());
+		if (IsOnFloor())
+		{
+			velocity.Y = 0;
+			Velocity = velocity;
+		}
+
+		else if (!IsOnFloor())
 		{
 			velocity.Y += Gravity * fDelta; //GAMBIARRA, depois vai ter uma função pro movimento inteiro
 			Velocity = velocity;
 		}
 
+
+
 		if (acceleration >= 0)
 		{
 			velocity = MoveRight(velocity, fDelta);
+			
 		}
 			
 		if (acceleration <= 0)
 		{
 			velocity = MoveLeft(velocity, fDelta);
 		}
-			
+	
 		// if (acceleration != 0) 
 		// 	velocity = Run(velocity, fDelta);
 		velocity = Jump(velocity, fDelta);
-
+		
 		return velocity;
 	}
 
@@ -152,8 +162,8 @@ public partial class Player : CharacterBody2D
 			{
 				velocity.X += velocity.X * (acceleration * 0.3f);
 			}
-			Debug.WriteLine(velocity.X);
-			Debug.WriteLine((acceleration, "acc"));
+			// Debug.WriteLine(velocity.X);
+			// Debug.WriteLine((acceleration, "acc"));
 		}
 		else
 		{
@@ -163,7 +173,8 @@ public partial class Player : CharacterBody2D
 		return velocity.X;
 	}
 	public Vector2 MoveRight(Vector2 velocity, float fDelta)
-	{
+	{	
+	
 		if (Input.IsActionPressed("right"))
 		{	
 			if (acceleration < AccelerationTime)
@@ -177,10 +188,12 @@ public partial class Player : CharacterBody2D
 				velocity.X = Speed * (AccelerationTime * Multiplier);
 			}
 			
+			
 		}
 		
 		else if (velocity.X > 0)
 		{	
+
 			velocity.X = Decelerate(velocity);
 			if (acceleration != 0 )
 			{
@@ -192,6 +205,12 @@ public partial class Player : CharacterBody2D
 			}
 			
 		
+		}
+
+		if (IsOnWall())
+		{
+			acceleration = 0;
+			Position = Position with{X = Position.X -1};
 		}
 		// Debug.WriteLine(acceleration);
 		// Debug.WriteLine(Velocity.X);
@@ -219,17 +238,30 @@ public partial class Player : CharacterBody2D
 		
 		else if (velocity.X < 0)
 		{	
-			velocity.X = Decelerate(velocity);
-
-			if (acceleration != 0 )
+			if (IsOnWall()){
+				acceleration = 0;
+			}
+			else
 			{
-				acceleration += fDelta;
-				if (acceleration > -0.01f)
+				velocity.X = Decelerate(velocity);
+
+				if (acceleration != 0 )
 				{
-					acceleration = 0;
+					acceleration += fDelta;
+					if (acceleration > -0.01f)
+					{
+						acceleration = 0;
+					}
 				}
 			}
 		}
+
+		if (IsOnWall())
+		{
+			acceleration = 0;
+			Position = Position with{X = Position.X +1};
+		}
+		
 		return velocity;
 	}
 

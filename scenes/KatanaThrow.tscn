@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd33bwl5jv11d"]
+
+[ext_resource type="Script" path="res://scripts/Katana.cs" id="1_8cxfh"]
+[ext_resource type="Texture2D" uid="uid://de0y5si41a820" path="res://sprites/Katana.png" id="2_5fp73"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgja0"]
+size = Vector2(30.9769, 1.11027)
+
+[node name="KatanaScene" type="Node2D"]
+position = Vector2(33, 0)
+
+[node name="Katana" type="CharacterBody2D" parent="."]
+position = Vector2(-1, 2)
+collision_layer = 2
+script = ExtResource("1_8cxfh")
+
+[node name="sprite" type="Sprite2D" parent="Katana"]
+texture = ExtResource("2_5fp73")
+
+[node name="collision" type="CollisionShape2D" parent="Katana"]
+position = Vector2(1, -2)
+scale = Vector2(1.9602, 2.70205)
+shape = SubResource("RectangleShape2D_vgja0")
+one_way_collision = true
+one_way_collision_margin = 5.0
